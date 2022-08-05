@@ -13,15 +13,37 @@
       <button @click="setState(state + 1)">Increase Counter</button>
       <button @click="setState(state - 1)">Decrease Counter</button>
     </div>
+    <br>
+    <hr>
+    <br>
+    <button @click="fetchData()">Fetch Data</button>
+    <pre v-if="myData">{{ JSON.stringify(myData, null, 3)}}</pre>
   </div>
 </template>
 
 <script setup>
+
+import { ref } from 'vue'
+
 import useToggle from "./hooks/useToggle";
 import useState from "./hooks/useState";
+import useApi from "./hooks/useApi";
 
 const { visible, toggleVisible } = useToggle(true);
 const { state, setState } = useState(0);
+const { response, onSendRequest } = useApi("http://jsonplaceholder.typicode.com/photos", {});
+
+const myData = ref()
+
+const fetchData = async () => {
+  myData.value = ref()
+  await onSendRequest();
+  myData.value = response.value;
+}
+
+console.log('response', response);
+
+
 </script>
 
 <style scoped></style>
