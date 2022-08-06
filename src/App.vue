@@ -50,6 +50,7 @@ import { useStorage } from "./hooks/useStorage";
 import useNetworkStatus from "./hooks/useNetworkStatus";
 import { useCopyToClipboard } from "./hooks/useCopyToClipboard";
 import useTheme from "./hooks/useTheme";
+import usePageVisibility from "./hooks/usePageVisibility";
 
 
 const { visible, toggleVisible } = useToggle(true);
@@ -77,6 +78,11 @@ useNetworkStatus((status) => {
 const copyToClipboard = useCopyToClipboard();
 
 const changeTheme = useTheme();
+
+usePageVisibility((hidden) => {
+   console.log(hidden)
+   console.log(`User is ${hidden ? ' not' : ''} focus your site`);
+});
 
 </script>
 
