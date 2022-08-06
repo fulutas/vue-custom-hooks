@@ -25,6 +25,12 @@
       <p>Width : {{ width }} Height : {{ height }}</p>
       {{ storageToken }}
     </div>
+    <br>
+    <hr>
+    <br>
+    <div>Copy to clipboard</div>
+    <input type="text" v-model="text" @keyup.enter="copyToClipboard(text)">
+    <button @click="copyToClipboard(text)">Copy</button>
   </div>
 </template>
 
@@ -38,6 +44,7 @@ import useApi from "./hooks/useApi";
 import useWindowResize from "./hooks/useWindowResize";
 import { useStorage } from "./hooks/useStorage";
 import useNetworkStatus from "./hooks/useNetworkStatus";
+import { useCopyToClipboard } from "./hooks/useCopyToClipboard";
 
 
 const { visible, toggleVisible } = useToggle(true);
@@ -49,7 +56,7 @@ setStorageToken('new token');
 
 const myData = ref()
 const networkStatus = ref()
- 
+const text = ref('')
 
 const fetchData = async () => {
   myData.value = ref()
@@ -61,6 +68,9 @@ const fetchData = async () => {
     if(status == 'online') return networkStatus.value = 'Online';
     if(status == 'offline') return networkStatus.value = 'Offline';
   })
+
+  const copyToClipboard = useCopyToClipboard();
+
 
 </script>
 
