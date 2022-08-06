@@ -1,5 +1,7 @@
-<template>
+  <template>
   <div>
+      Network Status : {{ networkStatus ?? 'Online'}}
+    <br/>
     <button @click="toggleVisible()">Show / Hide</button>
     <div v-show="visible">
       <h2>Hello!</h2>
@@ -34,7 +36,8 @@ import useToggle from "./hooks/useToggle";
 import useState from "./hooks/useState";
 import useApi from "./hooks/useApi";
 import useWindowResize from "./hooks/useWindowResize";
-import {useStorage} from "./hooks/useStorage";
+import { useStorage } from "./hooks/useStorage";
+import useNetworkStatus from "./hooks/useNetworkStatus";
 
 
 const { visible, toggleVisible } = useToggle(true);
@@ -45,6 +48,8 @@ const [storageToken, setStorageToken] = useStorage('token', 'local');
 setStorageToken('new token');
 
 const myData = ref()
+const networkStatus = ref()
+ 
 
 const fetchData = async () => {
   myData.value = ref()
@@ -52,8 +57,10 @@ const fetchData = async () => {
   myData.value = response.value;
 }
 
-console.log('response', response);
-
+  useNetworkStatus((status) => {
+    if(status == 'online') return networkStatus.value = 'Online';
+    if(status == 'offline') return networkStatus.value = 'Offline';
+  })
 
 </script>
 
