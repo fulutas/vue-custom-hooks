@@ -43,8 +43,12 @@
     <button @click="copyToClipboard(text)">Copy</button>
     <br>
     <br>
-    <button @click="changeTheme('dark')">Dark Theme</button>
-    <button @click="changeTheme('default')">Light Theme</button>
+    <div>
+      <button @click="changeTheme('dark')">Dark Theme</button>
+      <button @click="changeTheme('default')">Light Theme</button>
+    </div>
+    <br>
+    <div ref="container">View click outside!</div>
   </div>
 </template>
 
@@ -62,6 +66,7 @@ import { useCopyToClipboard } from "./hooks/useCopyToClipboard";
 import useTheme from "./hooks/useTheme";
 import usePageVisibility from "./hooks/usePageVisibility";
 import { useViewport } from "./hooks/useViewport";
+import { useOnClickOutside } from "./hooks/useOnClickOutside";
 
 
 const { visible, toggleVisible } = useToggle(true);
@@ -74,6 +79,7 @@ setStorageToken('new token');
 const myData = ref()
 const networkStatus = ref()
 const text = ref('')
+const container = ref(null);
 
 const fetchData = async () => {
   myData.value = ref()
@@ -97,6 +103,9 @@ usePageVisibility((hidden) => {
 
 const { device } = useViewport({ mobile: 700, tablet: 900 });
 
+useOnClickOutside(container, () => {
+  console.log('Clicked outside'); 
+})
 
 </script>
 
