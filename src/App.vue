@@ -2,12 +2,21 @@
   <div>
       Network Status : {{ networkStatus ?? 'Online'}}
     <br/>
+    <br>
+    <div>
+      Device Type : {{ device }}
+    </div>
+    <br>
+    <div>
+      <h2>Window Resize</h2>
+      <p>Width : {{ width }} Height : {{ height }}</p>
+    </div>
+    <br>
     <button @click="toggleVisible()">Show / Hide</button>
     <div v-show="visible">
       <h2>Hello!</h2>
     </div>
     <br />
-    <hr />
     <br />
     <div>
       State Value : {{ state }}
@@ -16,22 +25,23 @@
       <button @click="setState(state - 1)">Decrease Counter</button>
     </div>
     <br>
-    <hr>
     <br>
+    <div>
     <button @click="fetchData()">Fetch Data</button>
     <pre v-if="myData">{{ JSON.stringify(myData, null, 3)}}</pre>
-    <div>
-      <h2>Window Resize</h2>
-      <p>Width : {{ width }} Height : {{ height }}</p>
-      {{ storageToken }}
     </div>
     <br>
-    <hr>
+    <br>
+    <div>
+       <h2>Storage</h2>
+       <p>{{ storageToken }}</p>
+    </div>
+    <br>
     <br>
     <div>Copy to clipboard</div>
     <input type="text" v-model="text" @keyup.enter="copyToClipboard(text)">
     <button @click="copyToClipboard(text)">Copy</button>
-    <hr>
+    <br>
     <br>
     <button @click="changeTheme('dark')">Dark Theme</button>
     <button @click="changeTheme('default')">Light Theme</button>
@@ -51,6 +61,7 @@ import useNetworkStatus from "./hooks/useNetworkStatus";
 import { useCopyToClipboard } from "./hooks/useCopyToClipboard";
 import useTheme from "./hooks/useTheme";
 import usePageVisibility from "./hooks/usePageVisibility";
+import { useViewport } from "./hooks/useViewport";
 
 
 const { visible, toggleVisible } = useToggle(true);
@@ -83,6 +94,9 @@ usePageVisibility((hidden) => {
    console.log(hidden)
    console.log(`User is ${hidden ? ' not' : ''} focus your site`);
 });
+
+const { device } = useViewport({ mobile: 700, tablet: 900 });
+
 
 </script>
 
