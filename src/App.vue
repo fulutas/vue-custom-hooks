@@ -18,6 +18,10 @@
     <br>
     <button @click="fetchData()">Fetch Data</button>
     <pre v-if="myData">{{ JSON.stringify(myData, null, 3)}}</pre>
+    <div>
+      <h2>Window Resize</h2>
+      <p>Width : {{ width }} Height : {{ height }}</p>
+    </div>
   </div>
 </template>
 
@@ -28,10 +32,13 @@ import { ref } from 'vue'
 import useToggle from "./hooks/useToggle";
 import useState from "./hooks/useState";
 import useApi from "./hooks/useApi";
+import useWindowResize from "./hooks/useWindowResize";
+
 
 const { visible, toggleVisible } = useToggle(true);
 const { state, setState } = useState(0);
 const { response, onSendRequest } = useApi("http://jsonplaceholder.typicode.com/photos", {});
+const { width, height } = useWindowResize();
 
 const myData = ref()
 
