@@ -31,6 +31,10 @@
     <div>Copy to clipboard</div>
     <input type="text" v-model="text" @keyup.enter="copyToClipboard(text)">
     <button @click="copyToClipboard(text)">Copy</button>
+    <hr>
+    <br>
+    <button @click="changeTheme('dark')">Dark Theme</button>
+    <button @click="changeTheme('default')">Light Theme</button>
   </div>
 </template>
 
@@ -45,6 +49,7 @@ import useWindowResize from "./hooks/useWindowResize";
 import { useStorage } from "./hooks/useStorage";
 import useNetworkStatus from "./hooks/useNetworkStatus";
 import { useCopyToClipboard } from "./hooks/useCopyToClipboard";
+import useTheme from "./hooks/useTheme";
 
 
 const { visible, toggleVisible } = useToggle(true);
@@ -64,13 +69,14 @@ const fetchData = async () => {
   myData.value = response.value;
 }
 
-  useNetworkStatus((status) => {
+useNetworkStatus((status) => {
     if(status == 'online') return networkStatus.value = 'Online';
     if(status == 'offline') return networkStatus.value = 'Offline';
-  })
+})
 
-  const copyToClipboard = useCopyToClipboard();
+const copyToClipboard = useCopyToClipboard();
 
+const changeTheme = useTheme();
 
 </script>
 
