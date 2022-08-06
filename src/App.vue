@@ -21,6 +21,7 @@
     <div>
       <h2>Window Resize</h2>
       <p>Width : {{ width }} Height : {{ height }}</p>
+      {{ storageToken }}
     </div>
   </div>
 </template>
@@ -33,12 +34,15 @@ import useToggle from "./hooks/useToggle";
 import useState from "./hooks/useState";
 import useApi from "./hooks/useApi";
 import useWindowResize from "./hooks/useWindowResize";
+import {useStorage} from "./hooks/useStorage";
 
 
 const { visible, toggleVisible } = useToggle(true);
 const { state, setState } = useState(0);
 const { response, onSendRequest } = useApi("http://jsonplaceholder.typicode.com/photos", {});
 const { width, height } = useWindowResize();
+const [storageToken, setStorageToken] = useStorage('token', 'local');
+setStorageToken('new token');
 
 const myData = ref()
 
